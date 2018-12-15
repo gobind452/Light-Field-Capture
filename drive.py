@@ -110,7 +110,7 @@ def propagateToSensor(image,image_distance): # Main function for getting the ima
 					lens_x = int((lens_x-pixels/2)/pixels)
 					lens_y = int((lens_y-pixels/2)/pixels)
 					sensor_x,sensor_y = sensorMapping(lens_x,lens_y,x_real,y_real,x1,y1,distance_to_array) # Get the sensor pixel it would hit
-					cosine = float(z_add)/((x_real-x1)*(x_real-x1)+(y_real-y1)*(y_real-y1)+z_add*z_add)
+					cosine = np.power(float(z_add)/((x_real-x1)*(x_real-x1)+(y_real-y1)*(y_real-y1)+z_add*z_add),1.5)
 					sensor[sensor_x][sensor_y] = sensor[sensor_x][sensor_y] + image[x][y]*cosine*normalise # Add the normalised intensity
 
 # Driving loop
