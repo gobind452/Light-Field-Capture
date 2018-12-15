@@ -22,7 +22,7 @@ An image test.png of 200X200 pixels is supplied, along with various files used.
 1. Only the convex hull of a 3D object can be modelled as a stack. For instance consider an cylinder whose thickness is the lowest at the center. The light coming from the back portion would be indistinguishable.
 2. For accuracy, each point in the object should be considered a spherical source whose intensity decreases as 1/r*r where r is the distance from the soruce. As some rays travel more distance than others, these effect should be taken into account for better results.
 3. Even if diffraction due to objective lens can be modelled easily using PSFs, one needs to take into account further diffraction as well which cant be done by PSFs as ray tracing is required.
-4. Ray tracing is painfully slow, and optimisation is needed. (Maybe use C++?)
+4. Ray tracing is painfully slow, and optimisation is needed. (Maybe use C++? Multithreading?)
 5. For image planes formed very close to the sensor, only a few rays are considered (as the radius of the cone incident from a pixel on the sensor is very less). This needs some changes in the algorithm.
 6. No general way to create stacks
 
