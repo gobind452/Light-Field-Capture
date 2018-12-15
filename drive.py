@@ -110,11 +110,11 @@ def propagateToSensor(image,image_distance): # Main function for getting the ima
 					lens_x = int((lens_x-pixels/2)/pixels)
 					lens_y = int((lens_y-pixels/2)/pixels)
 					sensor_x,sensor_y = sensorMapping(lens_x,lens_y,x_real,y_real,x1,y1,distance_to_array) # Get the sensor pixel it would hit
-					cosine = np.power(float(z_add)/((x_real-x1)*(x_real-x1)+(y_real-y1)*(y_real-y1)+z_add*z_add),1.5)
+					cosine = np.power(float(z_add*z_add)/((x_real-x1)*(x_real-x1)+(y_real-y1)*(y_real-y1)+z_add*z_add),1.5)
 					sensor[sensor_x][sensor_y] = sensor[sensor_x][sensor_y] + image[x][y]*cosine*normalise # Add the normalised intensity
 
 # Driving loop
-for index in range(2,5): # 2,5 arbitrary. Can range between the number of slices
+for index in range(2,5): # 2,3 arbitrary. Can range between the number of slices
 	section = cv2.imread("Stack/image"+str(index)+".png",0) 
 	distance = specimen_distance +(index-2)*z_spacing # 2 here determines that slice in image2 is in focus
 	image_distance,mag = lens.distanceMagnification(distance)
@@ -122,7 +122,7 @@ for index in range(2,5): # 2,5 arbitrary. Can range between the number of slices
 	propagateToSensor(section,image_distance)
 
 image = cv2.normalize(sensor,image, 0, 255, cv2.NORM_MINMAX) # Normalise the entire image
-cv2.imwrite("sensor.png",sensor)
+cv2.imwrite("sensor.png",image)
 
 
 
