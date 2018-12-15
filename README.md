@@ -4,9 +4,7 @@ Ray tracing code for simulating the capture of a light field in a light-field-mi
 
 ## Working
 
-Light field microscopy involves using a microlens array and sensors to capture different light rays coming from an specimen, allowing refocussing and perspective changes. The setup is shown below -
-
-Insert image here
+Light field microscopy involves using a microlens array and sensors to capture different light rays coming from an specimen, allowing refocussing and perspective changes. 
 
 For simulating such a capture, we model a 3D object using a stack of slices. Each slice is then propagated through the objective lens, and from the image plane ray tracing occurs. For ray tracing, a cone of rays from each pixel is incident on the sensor. This cone has the objective lens as its base, and is extended to the sensor. Then the cone is discretized into rays by the number of sensor pixels it is hitting, and the microlens array effects are individually applied to these rays.
 
