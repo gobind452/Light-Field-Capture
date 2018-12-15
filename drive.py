@@ -38,10 +38,15 @@ image = cv2.imread("test.png",0) # 2D image for creating the stack
 x_lenslet = image.shape[0] 
 y_lenslet = image.shape[1]
 
-#for index in range(10):
+
+## Uncomment for creating a stack
+
+#for index in range(10):  # 10 is the number of slices
 #	section = stack.createImage(image,index) # Creates an section according to some rule (can be changed in stack.py)
 #	cv2.imwrite("Stack/image"+str(index)+".png",section)
-# End 
+
+
+## End 
 
 # Calibration of the experimental details
 def matching():
@@ -109,15 +114,15 @@ def propagateToSensor(image,image_distance): # Main function for getting the ima
 					sensor[sensor_x][sensor_y] = sensor[sensor_x][sensor_y] + image[x][y]*cosine*normalise # Add the normalised intensity
 
 # Driving loop
-for index in range(2,5):
-	section = cv2.imread("Stack/image"+str(index)+".png",0)
-	distance = specimen_distance +(index-2)*z_spacing
+for index in range(2,5): # 2,5 arbitrary. Can range between the number of slices
+	section = cv2.imread("Stack/image"+str(index)+".png",0) 
+	distance = specimen_distance +(index-2)*z_spacing # 2 here determines that slice in image2 is in focus
 	image_distance,mag = lens.distanceMagnification(distance)
 	print(image_distance,mag)
 	propagateToSensor(section,image_distance)
 
 image = cv2.normalize(sensor,image, 0, 255, cv2.NORM_MINMAX) # Normalise the entire image
-cv2.imwrite("sensor.png",image)
+cv2.imwrite("sensor.png",sensor)
 
 
 

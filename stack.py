@@ -2,7 +2,7 @@ from matplotlib import pyplot as plt
 import numpy as np 
 import cv2
 
-def createImage(image,image_index):
+def createImage(image,image_index): # Arbitrary (Hardcoded, Customisable)
 	new_image = np.zeros([image.shape[0],image.shape[1]])
 	x_start = 100 + (image_index-1)*10
 	y_start = 100 - (image_index-1)*10
@@ -23,11 +23,7 @@ def createImage(image,image_index):
 			new_image[x][y] = image[x][y]
 	return new_image
 
-image = cv2.imread("test.png",0)
 
-for index in range(10):
-	section = createImage(image,index) # Creates an section according to some rule (can be changed in stack.py)
-	cv2.imwrite("Stack/image"+str(index)+".png",section)
 
 
 

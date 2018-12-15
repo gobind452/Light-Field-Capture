@@ -3,7 +3,7 @@ class Objective: # Simulate the effect of an objective lens
 		self.NA = NA
 		self.flen = flen
 
-	def distanceMagnification(self,u):
+	def distanceMagnification(self,u): # Simple lens equation
 		f_inverse = 1/float(self.flen)
 		u_inverse = 1/float(u)
 		v_inverse = f_inverse - u_inverse
