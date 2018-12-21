@@ -22,6 +22,7 @@ An image schematics.png of 200X200 pixels is supplied, along with various files 
 For using the multicore drive.py, specify the number of cores to use as a command line argument.
 
 Example :
+
 	python3 drive_multicore.py 2
 
 ## Issues 
