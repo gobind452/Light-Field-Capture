@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+import matplotlib.pyplot as plt 
 
 class Objective: # Simulate the effect of an objective lens
     def __init__(self,NA,flen):
@@ -33,3 +34,10 @@ class Objective: # Simulate the effect of an objective lens
         res =  cv2.resize(IMG, (x_final, y_final), interpolation = cv2.INTER_AREA) #resizing IMG to fit the desired size
 	#interpolation chosen assuming that resize will correspond to shrinking
         return res.astype(np.uint8)
+
+if __name__ == "__main__":
+    image = cv2.imread("specimen.png",0)
+    lens = Objective(0.4,1)
+    mag = lens.imageFormation(image,1.5,200,200)
+    plt.imshow(mag,cmap="gray")
+    plt.show()
