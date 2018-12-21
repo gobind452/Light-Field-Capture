@@ -30,6 +30,8 @@ An image test.png of 200X200 pixels is supplied, along with various files used.
 
 1. Support for RGB images
 2. Explore algorithms in the Fourier space
+
+*DONE*
 3. Allow experimental errors to be encoded
 
 
