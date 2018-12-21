@@ -10,12 +10,12 @@ For simulating such a capture, we model a 3D object using a stack of slices in w
 
 ## Schematics
 
-An image schematics.png of 200X200 pixels is supplied, along with various files used.
+An image specimen.png of 200X200 pixels is supplied, along with various files used.
 
 1. fourier.py - Fourier domain algorithms used (Not used in the current version)
 2. stack.py - Given an image, it creates a stack of slices. This can be customised to create stacks of different nature.
 3. objective.py - Simulates the effect of the objective lens (Not implemented)
-4. drive.py - Contains the main code for simulating the capture
+4. drive.py (and drive_multicore.py) - Contains the main code for simulating the capture
 
 ## Instructions
 
