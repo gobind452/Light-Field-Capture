@@ -71,6 +71,8 @@ def calibration(para):
 	para['a'] = vector[0] #ax+by+cz = 0 (Equation of microlens plane (Assumed passes through origin)
 	para['b'] = vector[1] #[a,b,c] is normal to the plane with the equation ax+by+cz = 0
 	para['c'] = vector[2]
+	para['imagex_shift'] = para['imagey_shift'] = 0
+	para['sensorx_shift'] = para['sensory_shift'] = 0
 
 
 calibration(para)
@@ -135,11 +137,11 @@ def sensorMappingAngle(x_lens,y_lens,z_lens,x1,y1,x,y,distance_to_array): # For 
 	return (lens_x+x_ratio*(para['f_microlens']+lens_z),lens_y+y_ratio*(para['f_microlens']+lens_z))
 
 def pixelToReal(x,y,flag): # Helper function (Maps pixels to the real coordinates in the setup). Flag here corresponds to which object we are talking about (Sensor, Microlesn array, Image) 
- 	return(y*para[flag+'_spacing']-0.5*(para['x_'+flag]-para[flag+'_spacing']),-x*para[flag+'_spacing']+0.5*(para['y_'+flag]-para[flag+'_spacing']))
+ 	return(y*para[flag+'_spacing']-0.5*(para['x_'+flag]-para[flag+'_spacing'])+para[flag+'x_shift'],-x*para[flag+'_spacing']+0.5*(para['y_'+flag]-para[flag+'_spacing'])+para[flag+'y_shift'])
  	#Observe that (1,1) pixel in the image,array and sensor could be at different places depending on the spacing and dimensions of the object
- 	
+	
 def realToPixel(x,y,flag): # Inverse
-	return(int(round(-100*(y-0.5*(para['y_'+flag]-para[flag+'_spacing']))/(100*para[flag+'_spacing']),0)),int(round(100*(x+0.5*(para['x_'+flag]-para[flag+'_spacing']))/(100*para[flag+'_spacing']),0)))
+	return(int(round(-100*(y-para[flag+'y_shift']-0.5*(para['y_'+flag]-para[flag+'_spacing']))/(100*para[flag+'_spacing']),0)),int(round(100*(x-para[flag+'x_shift']+0.5*(para['x_'+flag]-para[flag+'_spacing']))/(100*para[flag+'_spacing']),0)))
 
 def pixelToRealAngle(x,y,flag): #For tilted angles
 	x_real,y_real = pixelToReal(x,y,flag) # Get pixel values
@@ -156,6 +158,7 @@ def propagateToSensor(image,image_distance): # Main function for getting the ima
 	distance_to_array = round(para['array_distance']-image_distance,5) # Distance to microlens array
 	radius = calculateRadius(image_distance,distance_to_array) # Radius of the cone
 	normalize = 1/float(radius*radius) # Intensity to be conserved
+	print(radius)
 	for x in range(image.shape[0]):
 		for y in range(image.shape[1]):
 			if image[x][y] == 0:
@@ -203,7 +206,7 @@ def propagateToSensorAngle(image,image_distance): # Same as above expect everyth
 # Driving loop
 for index in range(3,4): # 2,3 arbitrary. Can range between the number of slices
 	section = cv2.imread("Stack/image"+str(index)+".png",0) 
-	distance = para['specimen_distance'] +(index-2)*para['z_spacing'] # 2 here determines that slice in image2 is in focus
+	distance = para['specimen_distance'] +(index-3)*para['z_spacing'] # 2 here determines that slice in image2 is in focus
 	image_distance,mag = lens.distanceMagnification(distance)
 	print(image_distance,mag)
 	if para['x_tilt'] == 1 and para['y_tilt'] == 1:
@@ -212,6 +215,5 @@ for index in range(3,4): # 2,3 arbitrary. Can range between the number of slices
 		propagateToSensorAngle(section,image_distance)
 
 section = cv2.normalize(sensor,section, 0, 255, cv2.NORM_MINMAX) # Normalise the entire image
-cv2.imwrite("sensor.png",section)
-
+cv2.imwrite("sensor_less.png",section)
 
